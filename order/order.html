@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salt & Sizzle</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="order.css">
+</head>
+<body>
+    <header>
+        <p>Salt & Sizzle</p>
+        <div class="links">
+            <a href="../index.html">HOME</a><br>
+            <a href="order.html">ORDER</a><br>
+            <a href="../bill/bill.php">BILLING</a><br>
+            <a href="../table/reservation.html">BOOK A TABLE</a><br>
+        </div>
+    </header>
+    <div class="container">
+        <div class="image">
+            <img src="order.jpg" alt="Food Item Picture">
+        </div>
+        <form class="food-item" action="get_order.php" method="post">
+            <p class="title">MENU</p>
+            <p class="ititle">FOOD</p>
+            <p class="desc">These dishies are lingering over.</p>
+            <hr>
+            <p class="ititle">BROCCOLI ALMOND SOUP <input type="number" name="BAsoup"></p>
+            <p class="desc">A velvety blend of fresh broccoli and roasted almonds, finished with a touch of cream</p>
+            <hr>
+            <p class="ititle">TOMATO BASIL SOUP <input type="number" name="TBsoup"></p>
+            <p class="desc">A smooth, creamy tomato soup infused with fresh basil and a hint of garlic</p>
+            <hr>
+            <p class="ititle">MEXICAN TORTILLA SOUP <input type="number" name="MTsoup"></p>
+            <p class="desc">A smooth, creamy tomato soup infused with fresh basil and a hint of garlic</p>
+            <hr>
+            <p class="ititle">LOADED POTATO SOUP <input type="number" name="LPsoup"></p>
+            <p class="desc">A hearty, creamy potato soup topped with crispy bacon, cheddar cheese, and green onions</p>
+
+            <p class="ititle" style="margin-top:5%;margin-bottom:3%;">MAIN COURSE</p>
+
+            <hr>
+            <p class="ititle">TRUFFLE RISOTTO <input type="number" name="TRmain"></p>
+            <p class="desc">Creamy risotto infused with truffle oil, parmesan, and a rich, velvety finish for ultimate indulgence</p>
+            <hr>
+            <p class="ititle">PAN-SEARED SCALLOPS <input type="number" name="PSSmain"></p>
+            <p class="desc">Perfectly pan-seared scallops, golden-brown on the outside, tender inside, with a delicate, buttery finish</p>
+            <hr>
+            <p class="ititle">GUACAMOLE & CHIPS <input type="number" name="GCmain"></p>
+            <p class="desc">Freshly made guacamole served with crispy, salted tortilla chips for dipping</p>
+            <hr>
+            <p class="ititle">CHESSE ENCHILADAS <input type="number" name="CEmain"></p>
+            <p class="desc">Warm corn tortillas filled with melted cheese, smothered in a rich, savory enchilada sauce</p>
+            
+            <p class="ititle" style="margin-top:5%;margin-bottom:3%;">DESSERT</p>
+
+            <hr>
+            <p class="ititle">TIRAMISU <input type="number" name="Tdessert"></p>
+            <p class="desc">A traditional Italian dessert with layers of coffee-soaked ladyfingers and mascarpone</p>
+            <hr>
+            <p class="ititle">BELGIAN CHOCOLATE LAVA CAKE <input type="number" name="LCdessert"></p>
+            <p class="desc">Warm, rich Belgian chocolate cake with a molten center, served with vanilla bean ice cream.</p>
+
+            <p class="ititle" style="margin-top:5%;margin-bottom:3%;">MOCKTAILS</p>
+
+            <hr>
+            <p class="ititle">BERRY BLISS FIZZ <input type="number" name="BBFmock"></p>
+            <p class="desc">A refreshing mix of blueberries, raspberries, lime juice, and sparkling soda — sweet, tangy, and bubbly</p>
+            <hr>
+            <p class="ititle">TROPICAL SUNSET <input type="number" name="TSmock"></p>
+            <p class="desc">A vibrant blend of mango, pineapple, and orange juice with a splash of grenadine over ice</p>
+            <hr>
+            <p class="ititle">CUCUMBER MINT COOLER <input type="number" name="CMCmoock"></p>
+            <p class="desc">Crisp cucumber, fresh mint, and lime stirred with chilled soda for a cool, sophisticated sip</p>
+            <button name="submit" class="submit">Order</button>
+            <div style="text-align:center; margin-top: 20px;">
+                <p><b>Existing Customer?</b></p>
+                <form action="../bill/bill.php" method="get">
+                    <input type="hidden" name="check_existing" value="1">
+                    <button class="submit">View Existing Bill</button>
+                </form>
+            </div>
+
+        </form>
+    </div>
+    <footer style="height:15vh;"></footer>
+</body>
+</html>
