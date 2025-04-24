@@ -1,7 +1,4 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 session_start();
 include("../db.php");
 
@@ -17,37 +14,31 @@ if (isset($_SESSION['order']) && !empty($_SESSION['order'])) {
     // When user submits table number to view existing bill
     $tableNum = $_POST['tablenum'];
 
-    $getBill = $conn->prepare("SELECT bill FROM user WHERE tablenum = ?");
-    if ($getBill === false) {
-        echo "Error preparing statement: " . $conn->error;
-        exit();
-    }
+    $tableNum = mysqli_real_escape_string($conn, $tableNum);
 
-    $getBill->bind_param("s", $tableNum);
-    $getBill->execute();
-    $getBill->bind_result($fetchedBill);
-    if ($getBill->fetch()) {
-        $tableBill = $fetchedBill;
+    $sql = "SELECT bill FROM user WHERE tablenum = '$tableNum'";
+    $result = mysqli_query($conn, $sql);
+
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $tableBill = $row['bill'];
         $total = $tableBill;
     } else {
         $tableBill = "NOT_FOUND";
     }
-    $getBill->close();
 }
+
 
 // When Finalizing and Closing Table
 if (isset($_POST['complete'])) {
     $tableNum = $_POST['tablenum'];
 
-    $updateTable = $conn->prepare("UPDATE restaurant_tables SET status = 0 WHERE tablenum = ?");
-    if ($updateTable === false) {
-        echo "Error preparing updateTable statement: " . $conn->error;
-        exit();
-    }
+    $tableNum = mysqli_real_escape_string($conn, $tableNum);
 
-    $updateTable->bind_param("s", $tableNum);
-
-    if ($updateTable->execute()) {
+    // Simple SQL query
+    $sql = "UPDATE restaurant_tables SET status = 0 WHERE tablenum = '$tableNum'";
+    
+    if (mysqli_query($conn, $sql)) {
         echo "<h3>✅ Table '$tableNum' is now free! </h3>";
         session_destroy();
         header("Refresh:3;URL=../index.html");
@@ -57,34 +48,27 @@ if (isset($_POST['complete'])) {
     }
 }
 
+
 // When Adding More Items to Existing Bill
 if (isset($_POST['add_more'])) {
     $tableNum = $_POST['tablenum'];
 
-    $getBill = $conn->prepare("SELECT bill FROM user WHERE tablenum = ?");
-    if ($getBill === false) {
-        echo "Error preparing getBill statement: " . $conn->error;
-        exit();
-    }
+    $tableNum = mysqli_real_escape_string($conn, $tableNum);
 
-    $getBill->bind_param("s", $tableNum);
-    $getBill->execute();
-    $getBill->bind_result($currentBill);
-    
-    if ($getBill->fetch()) {
-        $getBill->close();
+    // Step 1: Get the current bill
+    $sql = "SELECT bill FROM user WHERE tablenum = '$tableNum'";
+    $result = mysqli_query($conn, $sql);
 
+    if ($result && mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $currentBill = $row['bill'];
+
+        // Assuming $total is already defined earlier in your session
         $newTotal = $currentBill + $total;
 
-        $updateBill = $conn->prepare("UPDATE user SET bill = ? WHERE tablenum = ?");
-        if ($updateBill === false) {
-            echo "Error preparing updateBill statement: " . $conn->error;
-            exit();
-        }
-
-        $updateBill->bind_param("ds", $newTotal, $tableNum);
-
-        if ($updateBill->execute()) {
+        // Step 2: Update the bill
+        $updateSql = "UPDATE user SET bill = $newTotal WHERE tablenum = '$tableNum'";
+        if (mysqli_query($conn, $updateSql)) {
             echo "<h3>✅ Added ₹$total to Table '$tableNum'. New total: ₹$newTotal</h3>";
             $_SESSION['order'] = [];
             $_SESSION['total'] = 0;
@@ -97,6 +81,7 @@ if (isset($_POST['add_more'])) {
         echo "<h3>❌ Table '$tableNum' not found in records.</h3>";
     }
 }
+
 ?>
 
 <!DOCTYPE html>
